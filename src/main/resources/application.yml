@@ -1,0 +1,60 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: mall
+  profiles:
+    active: dev # 默认开发环境
+  datasource:
+    url: jdbc:mysql://192.168.1.129:3306/mall?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+  redis:
+    host: 192.168.1.129
+    database: 0
+    port: 6379
+    password:
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0 # 连接池中的最小空闲连接
+    timeout: 3000ms # 连接超时时间(毫秒)
+    key:
+      prefix:
+        auth-code: "portal:authCode:"
+      expire:
+        auth-code: 120 # 验证码超时时间
+
+# Elasticsearch配置
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+      client:
+        reactive:
+          username: elasticsearch
+mybatis:
+  mapper-locations:
+    - classpath:mapper/*.xml
+    - classpath*:com/**/mapper/*.xml
+jwt:
+  secret: mall
+  expiration: 604800 # JWT的超期限时间(一周)
+  token-header: base_token # JWT存储的请求头
+  token-head: "Bearer "
+
+# 自定义swagger配置
+swagger:
+  enable: true
+  application-name: #{spring.application.name}
+  application-version: 1.0
+  application-description: mall环境准备
+  try-host: http://localhost:${server.port}
+
+
+
+
+
+
